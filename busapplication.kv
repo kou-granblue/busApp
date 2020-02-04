@@ -1,0 +1,300 @@
+<MainScreen>
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.9, 0.9, 0.9, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ActionBar:
+            ActionView:
+                ActionPrevious:
+                    title: 'BusApplicationBusSide'
+                    with_previous: False
+                    on_press: root.applicationFinish()
+                ActionButton:
+                    icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+
+                ActionButton:
+                    text: 'Config'
+                    on_press: root.configButtonTouched()
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 1.5
+            Label:
+                color: 0.1, 0.1, 0.1, 1
+                id: routeName
+                text: 'route name'
+                value: 0
+                on_value:
+                    if self.value > 0: root.onTripSelected()
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    color: 0.1, 0.1, 0.1, 1
+                    id: busStop
+                    text: ''
+                Label:
+                    color: 0.1, 0.1, 0.1, 1
+                    id: departureTime
+                    text: ''
+        FloatLayout:
+            size_hint_y: 2
+            orientation: 'horizontal'
+            Button:
+                size_hint_x: 0.3
+                pos_hint: {'center_x':.2, 'center_y': .5}
+                counter: 0
+                id: startbutton
+                text: 'START'
+                color: 1, 1, 1, 1
+                on_press: root.startButtonTouched()
+            Button:
+                size_hint_x: 0.3
+                pos_hint: {'center_x':.5, 'center_y': .5}
+                disabled: True
+                id: finishbutton
+                text: 'FINISH'
+                color: 1, 1, 1, 1
+                on_press: root.finishButtonTouched()
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.3
+                pos_hint: {'center_x':.8, 'center_y': .5}
+                Button:
+                    id: skipbutton
+                    disabled: True
+                    text:'SKIP'
+                    color: 1, 1, 1, 1
+                    on_press: root.skipButtonTouched()
+                Button:
+                    id: backbutton
+                    disabled: True
+                    text:'BACK'
+                    color: 1, 1, 1, 1
+                    on_press: root.backButtonTouched()
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 2
+    
+            Label:
+                color: 0.1, 0.1, 0.1, 1
+                id: distance
+                font_size: 24
+                text: ''
+            Label:
+                id: delay
+                text: ''
+            Image:
+                id: picture
+                color: 0.9, 0.9, 0.9, 1
+                source: None
+
+<ConfigScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.9, 0.9, 0.9, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ActionBar:
+            ActionView:
+                ActionPrevious:
+                    title: 'BusApplicationBusSide'
+                    with_previous: False
+                ActionOverflow:
+
+                ActionButton:
+                    text: 'Back'
+                    on_press: root.backButtonTouched()
+                ActionGroup:
+                    mode: 'spinner' 
+                    id: voice    
+                    text: 'Voice'
+                    ActionButton:
+                        id: akane
+                        text: 'Akane'
+                        on_press:
+                            voice.text = 'Akane'
+                            root.voiceCharacterTouched()
+                    ActionButton:
+                        id: aoi
+                        text: 'Aoi'
+                        on_press:
+                            voice.text = 'Aoi'
+                            root.voiceCharacterTouched()
+                    ActionButton:
+                        id: man
+                        text: 'Man'
+                        on_press:
+                            voice.text = 'Man'
+                            root.voiceCharacterTouched()
+
+                
+        BoxLayout:
+            spacing: 20
+            orientation: 'horizontal'
+            size_hint_y: 1.5
+            Label:
+                color: 0.1, 0.1, 0.1, 1
+                size_hint_x: 0.4
+                text: 'Volume Config'
+            Label:
+                color: 0.1, 0.1, 0.1, 1
+                size_hint_x: 0.4
+                id: volume
+                text: 'Now : '+str(round(volume_slider.value))
+        BoxLayout:
+            size_hint_y: 7
+            orientation: 'horizontal'
+            PaddingBoxLayout:
+                orientation: 'vertical'
+                Button:
+                    id: sample
+                    text: 'Sample'
+                    color: 1, 1, 1, 1
+                    on_press: root.sampleButtonTouched()
+                Button:
+                    id: regist
+                    text: 'Registration'
+                    color: 1, 1, 1, 1
+                    value: str(round(volume_slider.value))
+                    on_press:
+                        root.RegisterButtonTouched() 
+            MySlider:
+                id: volume_slider
+                orientation: 'vertical'
+                on_value: root.changeVolume()
+
+<Label>:
+    font_size: 20
+    color: 1, 1, 1, 1
+
+<MainActionVar@ActionBar>:
+    ActionView:
+        ActionPrevious:
+            title: 'BusApplicationBusSide'
+            with_previous: False
+
+        ActionButton:
+            text:'sound'
+            icon: 'atlas://data/images/defaulttheme/audio-volume-high'
+        ActionButton:
+            text: 'Config'
+
+
+<MainLabel@Label>:
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
+    size_hint_y: 1
+    text: 'BusApplicationBusSide'
+    font_size: 20
+    color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: 0, 0, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<PaddingBoxLayout@BoxLayout>:
+	orientation: 'horizontal'
+	padding: 5
+
+<RouteFormContent>:
+    orientation:'vertical'
+    PaddingBoxLayout:
+        orientation:'horizontal'
+        Label:
+            text: 'Route'
+            color: 1, 1, 1, 1
+        Spinner:
+            id: RouteSpinner
+            text: 'auto select'
+            color: 1, 1, 1, 1
+            on_text: root.selectRoute()
+
+    PaddingBoxLayout:
+        orientation:'horizontal'
+        Label:
+            id: tripid
+            value: 0
+            text: 'Trip'
+            color: 1, 1, 1, 1
+        Spinner:
+            id: TripSpinner
+            disabled: True
+            text: ''
+            values: ''
+            color: 1, 1, 1, 1
+
+    PaddingBoxLayout:
+        orientation:'horizontal'
+        BoxLayout:
+            size_hint_x:2
+            text: ''
+        Button:
+            id: Cancel
+            color: 1, 1, 1, 1
+            text:'OK'
+            on_press: root.okButtonTouch()
+        Button:
+            disabled: True
+            id: Finish
+            color: 1, 1, 1, 1
+            text:'GO'
+
+<RegistFormContent>:
+    orientation:'vertical'
+    Label:
+        text: '以下の情報を登録しますか'
+        color: 1, 1, 1, 1
+    PaddingBoxLayout:
+        orientation:'horizontal'
+        Label:
+            id: volume
+            text: 'Volume : '
+            color: 1, 1, 1, 1
+        Label:
+            id: voice
+            text: 'Voice : '
+            color: 1, 1, 1, 1
+    PaddingBoxLayout:
+        orientation:'horizontal'
+        BoxLayout:
+            size_hint_x:2
+            text: ''
+        Button:
+            id: Cancel
+            color: 1, 1, 1, 1
+            text:'cancel'
+        Button:
+            id: OK
+            color: 1, 1, 1, 1
+            text:'OK'
+            on_press: root.okButtonTouched()
+
+<FinishFormContent>:
+    orientation:'vertical'
+    Label:
+        text: 'アプリケーションを終了しますか'
+        color: 1, 1, 1, 1
+    PaddingBoxLayout:
+        orientation:'horizontal'
+        BoxLayout:
+            size_hint_x:2
+            text: ''
+        Button:
+            id: No
+            color: 1, 1, 1, 1
+            text:'NO'
+        Button:
+            id: Yes
+            color: 1, 1, 1, 1
+            text:'Yes'
+            on_press: root.yesButtonTouched()
+
